@@ -8,8 +8,9 @@
 import UIKit
 
 class UpdateMemberViewController:UIViewController{
-    private let memberData: Member
+    let memberData: Member   
     
+    // MARK: - UI
     private let UpdateMemberNumberLabel: UILabel = {
         let label = UILabel()
         label.text = "멤버번호"
@@ -42,7 +43,6 @@ class UpdateMemberViewController:UIViewController{
     
     var UpdateMemberImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "홍길동.png")
         return imageView
     }()
     
@@ -96,14 +96,16 @@ class UpdateMemberViewController:UIViewController{
         return textField
     }()
     
-    private let UpdateMemberButton: UIButton = {
+    lazy var UpdateMemberButton: UIButton = {
         let button = UIButton()
         button.setTitle("UPDATE", for: .normal)
+        button.addTarget(self, action: #selector(onTapUpdateButton), for: .touchUpInside)
         button.backgroundColor = .systemGray
         button.layer.cornerRadius = 6
         return button
     }()
 
+// MARK: - Member 객체 초기화
     init(member: Member) {
         self.memberData = member
         super.init(nibName: nil, bundle: nil)
@@ -113,11 +115,24 @@ class UpdateMemberViewController:UIViewController{
         fatalError("init(coder:) has not been implemented")
     }
     
+// MARK: - viewDidLoad
     override func viewDidLoad() {
         view.backgroundColor = .white
         setConstraint()
     }
     
+// MARK: - action UpdateMemberButton
+    @objc func onTapUpdateButton(_:UIButton){
+        var memberData: Member
+
+        memberData = Member(memberImage: "배트맨.png", memberNumber: UpdateMemberNumberTextField.text, memberName: UpdateMemberNameTextField.text, memberAge: UpdateMemberAgeTextField.text, memberPhoneNumber: UpdateMemberPhoneNumberTextField.text, memberAddress: UpdateMemberAddressTextField.text)
+
+        memberList.append(memberData)
+        
+        self.navigationController?.popViewController(animated: true)
+    }
+
+    // MARK: - for constraint
     func setConstraint(){
         self.view.addSubview(UpdateMemberImageView)
         
@@ -152,9 +167,7 @@ class UpdateMemberViewController:UIViewController{
         
         UpdateMemberButton.translatesAutoresizingMaskIntoConstraints = false
         
-        
         let safeArea = self.view.safeAreaLayoutGuide
-        
         
         NSLayoutConstraint.activate([
             UpdateMemberImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 50),

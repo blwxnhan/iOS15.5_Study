@@ -7,7 +7,8 @@
 
 import UIKit
 
-class MemberListViewCell:UITableViewCell{    
+class MemberListViewCell:UITableViewCell{
+// MARK: - UI
     let memberNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
@@ -36,7 +37,7 @@ class MemberListViewCell:UITableViewCell{
         fatalError()
     }
 
-    
+// MARK: - for constraint
     private func setConstraint(){
         contentView.addSubview(memberNameLabel)
         contentView.addSubview(memberAddressLabel)
@@ -65,6 +66,7 @@ class MemberListViewCell:UITableViewCell{
     }
 }
 
+// MARK: - UITableViewCell extension
 extension UITableViewCell {
     static var identifier: String {
         return String(describing: self)

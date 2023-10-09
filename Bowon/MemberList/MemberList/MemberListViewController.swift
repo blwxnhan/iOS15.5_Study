@@ -7,12 +7,14 @@
 
 import UIKit
 
+var  memberList = [
+    Member(memberImage: "배트맨.png",memberNumber: "0", memberName: "배트맨", memberAge: "20", memberPhoneNumber: "010-8030-2020", memberAddress: "광주광역시"),
+    Member(memberImage: "임꺽정.png",memberNumber: "1", memberName: "임꺽정", memberAge: "20", memberPhoneNumber: "010-2345-2634", memberAddress: "서울특별시"),
+    Member(memberImage: "홍길동.png",memberNumber: "2", memberName: "홍길동", memberAge: "20", memberPhoneNumber: "010-5645-8678", memberAddress: "광주광역시")
+]
+
 class MemberListViewController:UIViewController{
-    var memberList = [
-        Member(memberImage: "배트맨.png",memberNumber: "0", memberName: "배트맨", memberAge: "20", memberPhoneNumber: "010-8030-2020", memberAddress: "광주광역시"),
-        Member(memberImage: "임꺽정.png",memberNumber: "1", memberName: "임꺽정", memberAge: "20", memberPhoneNumber: "010-2345-2634", memberAddress: "서울특별시"),
-        Member(memberImage: "홍길동.png",memberNumber: "2", memberName: "홍길동", memberAge: "20", memberPhoneNumber: "010-5645-8678", memberAddress: "광주광역시")
-    ]
+    let memberData = Member(memberImage: "", memberNumber: "", memberName: "", memberAge: "", memberPhoneNumber: "", memberAddress: "")
     
     private lazy var myTableView:UITableView = {
         let tableView = UITableView()
@@ -33,6 +35,7 @@ class MemberListViewController:UIViewController{
         myTableView.reloadData()
     }
     
+// MARK: - constraint
     private func setConstraint(){
         let safeArea = view.safeAreaLayoutGuide
 
@@ -54,12 +57,12 @@ class MemberListViewController:UIViewController{
     }
     
     private func setNavigationButton(){
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(onTapAdd))
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(onTapAddBarButton))
         self.navigationItem.rightBarButtonItem = addButton
         self.navigationItem.title = "회원 목록"
     }
     
-    @objc func onTapAdd(_:UIBarButtonItem){
+    @objc func onTapAddBarButton(_:UIBarButtonItem){
         let AddMemberVC = AddMemberViewController()
         self.navigationController?.pushViewController(AddMemberVC, animated: true)
     }
@@ -71,10 +74,10 @@ extension MemberListViewController:UITableViewDelegate,UITableViewDataSource{
         
         guard indexPath.row < memberList.count else { return UITableViewCell() }
 
-        let data = memberList[indexPath.row]
+        let data = memberList[(indexPath as NSIndexPath).row]
         
         cell.memberNameLabel.text = data.memberName
-        cell.memberPicturesImageView.image = UIImage(named:data.memberImage)
+        cell.memberPicturesImageView.image = UIImage(named:data.memberImage!)
         cell.memberAddressLabel.text = data.memberAddress
         
         return cell
@@ -84,9 +87,12 @@ extension MemberListViewController:UITableViewDelegate,UITableViewDataSource{
         return memberList.count
     }
     
+    //editing style
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
+            memberList.remove(at: (indexPath as NSIndexPath).row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+
         } else if editingStyle == .insert {
 
         }
@@ -105,7 +111,7 @@ extension MemberListViewController:UITableViewDelegate,UITableViewDataSource{
         let memberData = memberList[indexPath.row]
         let UpdateMemberVC = UpdateMemberViewController(member: memberData)
         
-        UpdateMemberVC.UpdateMemberImageView.image = UIImage(named: memberData.memberImage)
+        UpdateMemberVC.UpdateMemberImageView.image = UIImage(named: memberData.memberImage!)
         UpdateMemberVC.UpdateMemberNumberTextField.text = memberData.memberNumber
         UpdateMemberVC.UpdateMemberNameTextField.text = memberData.memberName
         UpdateMemberVC.UpdateMemberAgeTextField.text = memberData.memberAge
@@ -120,24 +126,24 @@ extension MemberListViewController:UITableViewDelegate,UITableViewDataSource{
 
 
 // MARK: - for canvas
-import SwiftUI
-
-struct ViewControllerRepresentable: UIViewControllerRepresentable{
-    typealias UIViewControllerType = MemberListViewController
-    
-    func makeUIViewController(context: Context) -> MemberListViewController {
-        return MemberListViewController()
-    }
-    
-    func updateUIViewController(_ uiViewController: MemberListViewController, context: Context) {
-        
-    }
-}
-
-@available(iOS 13.0.0, *)
-struct ViewPreview: PreviewProvider{
-    static var previews: some View{
-        ViewControllerRepresentable()
-    }
-}
-
+//import SwiftUI
+//
+//struct ViewControllerRepresentable: UIViewControllerRepresentable{
+//    typealias UIViewControllerType = MemberListViewController
+//    
+//    func makeUIViewController(context: Context) -> MemberListViewController {
+//        return MemberListViewController()
+//    }
+//    
+//    func updateUIViewController(_ uiViewController: MemberListViewController, context: Context) {
+//        
+//    }
+//}
+//
+//@available(iOS 13.0.0, *)
+//struct ViewPreview: PreviewProvider{
+//    static var previews: some View{
+//        ViewControllerRepresentable()
+//    }
+//}
+//

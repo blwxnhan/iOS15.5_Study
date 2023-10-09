@@ -8,6 +8,7 @@
 import UIKit
 
 class AddMemberViewController:UIViewController{
+    
     private let AddMemberNumberLabel: UILabel = {
         let label = UILabel()
         label.text = "멤버번호"
@@ -85,7 +86,7 @@ class AddMemberViewController:UIViewController{
         textField.leftViewMode = .always
         return textField
     }()
-    
+            
     let AddMemberPhoneNumberTextField: UITextField = {
         let textField = UITextField()
         textField.layer.cornerRadius = 6
@@ -109,16 +110,17 @@ class AddMemberViewController:UIViewController{
         view.backgroundColor = .white
         setConstraint()
     }
-    
+        
     @objc func onTapAddButton(_:UIButton){
-        let memberListVC = MemberListViewController()
-        //memberListVC.memberList.append()
+        var memberData: Member
+
+        memberData = Member(memberImage: "배트맨.png", memberNumber: AddMemberNumberTextField.text, memberName: AddMemberNameTextField.text, memberAge: AddMemberAgeTextField.text, memberPhoneNumber: AddMemberPhoneNumberTextField.text, memberAddress: AddMemberAddressTextField.text)
+
+        memberList.append(memberData)
         
         self.navigationController?.popViewController(animated: true)
     }
-    
-    //func input
-    
+        
     func setConstraint(){
         self.view.addSubview(AddMemberImageView)
         

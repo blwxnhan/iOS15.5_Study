@@ -1,4 +1,4 @@
-//
+ //
 //  ViewController.swift
 //  test
 //
@@ -76,7 +76,7 @@ final class ViewController: UIViewController {
 
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
-//        textField.frame = CGRect(x: 110, y: 180, width: 230, height: 40)
+//        se.frame = CGRect(x: 110, y: 180, width: 230, height: 40)
         textField.leadingAnchor.constraint(equalTo:  safeArea.leadingAnchor,constant: 120).isActive = true
         textField.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 145).isActive = true
         textField.widthAnchor.constraint(equalToConstant: 228).isActive = true
@@ -118,7 +118,7 @@ final class ViewController: UIViewController {
         
         //modalPresentationStyle -> UIViewController의 속성 중 하나 , 열거형 사용하여 모달의 프레젠테이션 스타일 지정가능
         //full screen -> 화면을 완전히 덮고 배경 뷰 컨트롤러를 숨김
-
+o
         backCalVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         self.present(backCalVC, animated: true, completion: nil)
         

@@ -39,7 +39,6 @@ class AddMemberViewController:UIViewController{
         return label
     }()
     
-    
     let AddMemberImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = imageView.frame.height/2
@@ -115,9 +114,8 @@ class AddMemberViewController:UIViewController{
         var memberData: Member
 
         memberData = Member(memberImage: "배트맨.png", memberNumber: AddMemberNumberTextField.text, memberName: AddMemberNameTextField.text, memberAge: AddMemberAgeTextField.text, memberPhoneNumber: AddMemberPhoneNumberTextField.text, memberAddress: AddMemberAddressTextField.text)
-
         memberList.append(memberData)
-        
+
         self.navigationController?.popViewController(animated: true)
     }
         

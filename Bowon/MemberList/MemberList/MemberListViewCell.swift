@@ -24,6 +24,7 @@ class MemberListViewCell:UITableViewCell{
     let memberPicturesImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = imageView.frame.height/2
+        imageView.image = UIImage(named: "배트맨.png")
         imageView.clipsToBounds = true
         return imageView
     }()

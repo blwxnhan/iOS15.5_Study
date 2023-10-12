@@ -13,8 +13,12 @@ var  memberList = [
     Member(memberImage: "홍길동.png",memberNumber: "2", memberName: "홍길동", memberAge: "20", memberPhoneNumber: "010-5645-8678", memberAddress: "광주광역시")
 ]
 
+protocol MemberDetailDelegate {
+    func didUpdateMember(_ member: Member)
+}
+
 class MemberListViewController:UIViewController{
-    let memberData = Member(memberImage: "", memberNumber: "", memberName: "", memberAge: "", memberPhoneNumber: "", memberAddress: "")
+    var selectedMemberIndex: Int = 0
     
     private lazy var myTableView:UITableView = {
         let tableView = UITableView()
@@ -59,6 +63,7 @@ class MemberListViewController:UIViewController{
     private func setNavigationButton(){
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(onTapAddBarButton))
         self.navigationItem.rightBarButtonItem = addButton
+        self.navigationItem.leftBarButtonItem = self.editButtonItem
         self.navigationItem.title = "회원 목록"
     }
     
@@ -68,7 +73,8 @@ class MemberListViewController:UIViewController{
     }
 }
 
-extension MemberListViewController:UITableViewDelegate,UITableViewDataSource{
+// MARK: - extension UITableViewDelegate,UITableViewDataSource
+extension MemberListViewController: UITableViewDelegate, UITableViewDataSource, MemberDetailDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemberListViewCell.identifier, for: indexPath) as? MemberListViewCell else { return UITableViewCell() }
         
@@ -92,10 +98,10 @@ extension MemberListViewController:UITableViewDelegate,UITableViewDataSource{
         if editingStyle == .delete {
             memberList.remove(at: (indexPath as NSIndexPath).row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-
-        } else if editingStyle == .insert {
-
-        }
+        } 
+//        else if editingStyle == .insert {
+//
+//        }
     }
     
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
@@ -103,14 +109,19 @@ extension MemberListViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     //cell 위치 움직이는 함수
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        let moveList = memberList[(fromIndexPath as NSIndexPath).row]
         
+        memberList.remove(at: (fromIndexPath as NSIndexPath).row)
+        memberList.insert(moveList, at: (to as NSIndexPath).row)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let memberData = memberList[indexPath.row]
-        let UpdateMemberVC = UpdateMemberViewController(member: memberData)
         
+        selectedMemberIndex = indexPath.row
+        let UpdateMemberVC = UpdateMemberViewController()
+                
         UpdateMemberVC.UpdateMemberImageView.image = UIImage(named: memberData.memberImage!)
         UpdateMemberVC.UpdateMemberNumberTextField.text = memberData.memberNumber
         UpdateMemberVC.UpdateMemberNameTextField.text = memberData.memberName
@@ -120,8 +131,20 @@ extension MemberListViewController:UITableViewDelegate,UITableViewDataSource{
         
         self.navigationController?.pushViewController(UpdateMemberVC, animated: true)
     }
-
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func didUpdateMember(_ member: Member) {
+        if let index = memberList.firstIndex(where: { $0.memberNumber == member.memberNumber }) {
+            memberList[index] = member
+            //myTableView.reloadData()
+        }
+    }
 }
+
+
 
 
 

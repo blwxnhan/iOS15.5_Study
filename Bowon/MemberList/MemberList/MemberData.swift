@@ -8,10 +8,10 @@
 import Foundation
 
 struct Member{
-    let memberImage: String?
-    let memberNumber: String?
-    let memberName: String?
-    let memberAge: String?
-    let memberPhoneNumber: String?
-    let memberAddress: String?
+    var memberImage: String?
+    var memberNumber: String?
+    var memberName: String?
+    var memberAge: String?
+    var memberPhoneNumber: String?
+    var memberAddress: String?
 }

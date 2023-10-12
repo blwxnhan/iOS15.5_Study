@@ -8,9 +8,10 @@
 import UIKit
 
 class UpdateMemberViewController:UIViewController{
-    let memberData: Member   
+    var updateMemberData: Member?
+    var delegate: MemberDetailDelegate?
     
-    // MARK: - UI
+// MARK: - UI
     private let UpdateMemberNumberLabel: UILabel = {
         let label = UILabel()
         label.text = "멤버번호"
@@ -105,16 +106,6 @@ class UpdateMemberViewController:UIViewController{
         return button
     }()
 
-// MARK: - Member 객체 초기화
-    init(member: Member) {
-        self.memberData = member
-        super.init(nibName: nil, bundle: nil)
-    }
-        
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 // MARK: - viewDidLoad
     override func viewDidLoad() {
         view.backgroundColor = .white
@@ -123,16 +114,18 @@ class UpdateMemberViewController:UIViewController{
     
 // MARK: - action UpdateMemberButton
     @objc func onTapUpdateButton(_:UIButton){
-        var memberData: Member
-
-        memberData = Member(memberImage: "배트맨.png", memberNumber: UpdateMemberNumberTextField.text, memberName: UpdateMemberNameTextField.text, memberAge: UpdateMemberAgeTextField.text, memberPhoneNumber: UpdateMemberPhoneNumberTextField.text, memberAddress: UpdateMemberAddressTextField.text)
-
-        memberList.append(memberData)
-        
+        if var updatedMember = updateMemberData {
+            updatedMember.memberNumber = UpdateMemberNumberTextField.text
+            updatedMember.memberName = UpdateMemberNameTextField.text
+            updatedMember.memberAge = UpdateMemberAgeTextField.text
+            updatedMember.memberAddress = UpdateMemberAddressTextField.text
+            updatedMember.memberPhoneNumber = UpdateMemberPhoneNumberTextField.text
+            delegate?.didUpdateMember(updatedMember)
+        }
         self.navigationController?.popViewController(animated: true)
     }
 
-    // MARK: - for constraint
+// MARK: - for constraint
     func setConstraint(){
         self.view.addSubview(UpdateMemberImageView)
         
@@ -149,7 +142,6 @@ class UpdateMemberViewController:UIViewController{
         self.view.addSubview(UpdateMemberPhoneNumberTextField)
         
         self.view.addSubview(UpdateMemberButton)
-        
         
         UpdateMemberImageView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -225,6 +217,9 @@ class UpdateMemberViewController:UIViewController{
         ])
     }
 }
+
+
+
 
 
 // MARK: - for canvas

@@ -8,11 +8,10 @@
 import UIKit
 import SnapKit
 
-class MusicCollectionViewCell : UICollectionViewCell {
+final class MusicCollectionViewCell : UICollectionViewCell {
     var musicImageView : UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "pencil")
-
+        
         return imageView
     }()
     
@@ -38,19 +37,12 @@ class MusicCollectionViewCell : UICollectionViewCell {
         
         Task {
             guard
-                let imageURL = try? await self.fetchImage(requestURL: url),
-                let url = URL(string: imageURL),
                 let data = try? Data(contentsOf: url)
             else { return }
             DispatchQueue.main.async{
                 self.musicImageView.image = UIImage(data: data)
             }
         }
-    }
-    
-    func fetchImage(requestURL: URL) async throws -> String {
-        let (data, _) = try await URLSession.shared.data(from: requestURL)
-        return try JSONDecoder().decode(Music.self, from: data).imageName
     }
 }
 

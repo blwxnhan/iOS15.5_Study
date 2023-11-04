@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  MemberList
+//  MusicAPP
 //
-//  Created by Bowon Han on 10/8/23.
+//  Created by Bowon Han on 11/1/23.
 //
 
 import UIKit

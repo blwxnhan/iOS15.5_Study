@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  MemberList
+//  MusicAPP
 //
-//  Created by Bowon Han on 10/8/23.
+//  Created by Bowon Han on 11/1/23.
 //
 
 import UIKit
@@ -17,15 +17,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene)
         
-        let rootVC = MemberListViewController()
-        let navVC = UINavigationController(rootViewController: rootVC)
-        
-        window?.windowScene = windowScene
-        window?.rootViewController = navVC
-        window?.makeKeyAndVisible()
-
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = SearchMusicViewController()
+        window.makeKeyAndVisible()
+        self.window = window
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

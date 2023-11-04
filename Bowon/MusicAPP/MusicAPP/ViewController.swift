@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  MemberList
+//  MusicAPP
 //
-//  Created by Bowon Han on 10/8/23.
+//  Created by Bowon Han on 11/1/23.
 //
 
 import UIKit
@@ -13,7 +13,5 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
-
 }
 

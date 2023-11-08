@@ -78,7 +78,7 @@ class SearchMusicViewController : UIViewController {
             do {
                 let musicInformation = try await self.fetchMusicInfo(url: url)
                 self.musicInfo = musicInformation
-q                DispatchQueue.main.async{
+                DispatchQueue.main.async{
                     self.collectionView.reloadData()
                 }
             } catch {

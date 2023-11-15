@@ -18,7 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-                
+        
+        //tabBar 컨트롤러에 추가해서
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers([TodoListViewController(),SettingViewController()], animated: true)
         tabBarController.tabBar.backgroundColor = .systemGray5

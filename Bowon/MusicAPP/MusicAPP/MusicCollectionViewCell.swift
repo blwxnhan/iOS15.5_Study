@@ -35,12 +35,13 @@ final class MusicCollectionViewCell : UICollectionViewCell {
     func requestImageURL(data: Music) {
         guard let url = URL(string: data.imageName) else { return }
         
-        Task {
-            guard
-                let data = try? Data(contentsOf: url)
-            else { return }
-            DispatchQueue.main.async{
-                self.musicImageView.image = UIImage(data: data)
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.musicImageView.image = image
+                    }
+                }
             }
         }
     }

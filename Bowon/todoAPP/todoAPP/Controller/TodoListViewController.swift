@@ -5,6 +5,8 @@
 //  Created by Bowon Han on 11/5/23.
 //
 
+// configuration
+
 import UIKit
 import SnapKit
 
@@ -17,14 +19,10 @@ class TodoListViewController: UIViewController {
         
         view.backgroundColor = .white
         setLayout()
-        configure()
+        configureTableView()
         setUp()
-        
-        let safeArea = self.view.safeAreaLayoutGuide
-            
-        self.bottomConstraint = NSLayoutConstraint(item: self.registerView, attribute: .bottom, relatedBy: .equal, toItem: safeArea, attribute: .bottom, multiplier: 1.0, constant: 0)
-        self.bottomConstraint?.isActive = true
-        
+        keyboardLayout()
+    
         self.view.gestureRecognizers?.removeAll()
     }
     
@@ -36,18 +34,25 @@ class TodoListViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.removeKeyboardNotifications()
     }
+    
+    func keyboardLayout() {
+        let safeArea = self.view.safeAreaLayoutGuide
+            
+        self.bottomConstraint = NSLayoutConstraint(item: self.registerView, attribute: .bottom, relatedBy: .equal, toItem: safeArea, attribute: .bottom, multiplier: 1.0, constant: 0)
+        self.bottomConstraint?.isActive = true
+    }
         
-    func addKeyboardNotifications(){
+    func addKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func removeKeyboardNotifications(){
+    func removeKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc func keyboardWillShow(_ noti: NSNotification){
+    @objc func keyboardWillShow(_ noti: NSNotification) {
         if let keyboardSize = (noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight: CGFloat
             keyboardHeight = keyboardSize.height - self.view.safeAreaInsets.bottom
@@ -56,7 +61,7 @@ class TodoListViewController: UIViewController {
         }
     }
 
-    @objc func keyboardWillHide(_ noti: NSNotification){
+    @objc func keyboardWillHide(_ noti: NSNotification) {
         if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
@@ -70,6 +75,9 @@ class TodoListViewController: UIViewController {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .white
+        
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
     
         return tableView
     }()
@@ -102,9 +110,6 @@ class TodoListViewController: UIViewController {
     private func setLayout() {
         view.addSubview(tableView)
         view.addSubview(registerView)
-
-        tableView.estimatedRowHeight = UITableView.automaticDimension
-        tableView.rowHeight = UITableView.automaticDimension
         
         tableView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(70)
@@ -120,7 +125,7 @@ class TodoListViewController: UIViewController {
         }
     }
     
-    private func configure() {
+    private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(TodoTableViewCell.self, forCellReuseIdentifier: TodoTableViewCell.identifier)
@@ -133,6 +138,7 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sectionData = dataSource[indexPath.section]
         
+        //guard
         let cell = tableView.dequeueReusableCell(
             withIdentifier: TodoTableViewCell.identifier,
             for: indexPath
@@ -189,6 +195,7 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
 // MARK: - ButtonTappedDelegate extension
 extension TodoListViewController : ButtonTappedDelegate {
     func tapFinishButton(forCell cell: TodoTableViewCell) {
+        //boolean 타입으로 하기
         if cell.checkButton.currentImage == UIImage(systemName: "checkmark.circle.fill") {
             cell.checkButton.setImage(UIImage(systemName: "circle"), for: .normal)
             
@@ -196,7 +203,7 @@ extension TodoListViewController : ButtonTappedDelegate {
             cell.todoListLabel.unsetStrikethrough(from: cell.todoListLabel.text, at: cell.todoListLabel.text)
             
             cell.deleteButton.setImage(nil, for: .normal)
-            
+//            NSDiffableDataSourceSnapshot
         } else {
             cell.checkButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
             
@@ -274,3 +281,6 @@ extension TodoListViewController : SelectSectionButtonDelegate {
         }
     }
 }
+
+
+//델리게이트 말로 클로져로 해보기

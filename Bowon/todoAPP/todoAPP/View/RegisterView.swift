@@ -80,6 +80,7 @@ final class RegisterView : UIView {
     }
 
     private func setStackViewLayout(){
+        //고차함수
         registerStackView.addArrangedSubview(registerTextField)
         registerStackView.addArrangedSubview(addTodoButton)
         registerStackView.addArrangedSubview(addSectionButton)

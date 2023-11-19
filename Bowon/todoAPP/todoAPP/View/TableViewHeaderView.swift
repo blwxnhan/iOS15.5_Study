@@ -28,7 +28,7 @@ class TodoTableViewHeaderView : UITableViewHeaderFooterView {
     var sectionNameLabel : UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 27, weight: .heavy)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .heavy)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         return label
@@ -67,14 +67,8 @@ class TodoTableViewHeaderView : UITableViewHeaderFooterView {
             $0.top.equalToSuperview().offset(10)
             $0.bottom.equalToSuperview().offset(-10)
             $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-25)
+            $0.trailing.equalToSuperview().offset(-20)
         }
     }
 }
 
-// MARK: - UITableViewHeaderFooterView extension
-extension UITableViewHeaderFooterView {
-    static var identifier: String {
-        return String(describing: self)
-    }
-}
